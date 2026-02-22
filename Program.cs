@@ -6,6 +6,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -16,6 +17,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Middleware pipeline order
+app.UseMiddleware<UserManagementAPI.Middleware.ErrorHandlingMiddleware>();
+app.UseMiddleware<UserManagementAPI.Middleware.AuthenticationMiddleware>();
+app.UseMiddleware<UserManagementAPI.Middleware.LoggingMiddleware>();
 
 app.UseAuthorization();
 
